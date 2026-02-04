@@ -162,21 +162,11 @@ mio-music/
 
 ## 🚀 Deployment
 
-### Deploy ke Railway
+### Deploy ke Bot-Hosting.net (Paling Mudah & Gratis)
 
-1. Fork repository ini
-2. Buat proyek baru di [Railway](https://railway.app/)
-3. Hubungkan repository GitHub kamu
-4. Tambahkan environment variables
-5. Deploy!
-
-### Deploy ke Render
-
-1. Fork repository ini
-2. Buat Web Service baru di [Render](https://render.com/)
-3. Hubungkan repository GitHub kamu
-4. Atur environment variables
-5. Deploy!
+1. Baca panduan lengkap di [**DEPLOY.md**](./DEPLOY.md)
+2. Daftar di [Bot-Hosting.net](https://bot-hosting.net)
+3. Ikuti langkah-langkah upload file dan konfigurasi `.env`.
 
 ---
 
