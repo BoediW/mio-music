@@ -1,6 +1,7 @@
 ---
 const botName = "MioMusic";
-const inviteUrl = "https://discord.com/api/oauth2/authorize?client_id=1456491034488864799&permissions=8&scope=bot%20applications.commands";
+const inviteUrl =
+	"https://discord.com/api/oauth2/authorize?client_id=1456491034488864799&permissions=8&scope=bot%20applications.commands";
 ---
 
 <html lang="en">
@@ -9,9 +10,12 @@ const inviteUrl = "https://discord.com/api/oauth2/authorize?client_id=1456491034
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<title>{botName} - Professional Discord Music Bot</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"
+			rel="stylesheet"
+		/>
 		<style>
 			:root {
 				--bg-dark: #0a0b10;
@@ -25,14 +29,18 @@ const inviteUrl = "https://discord.com/api/oauth2/authorize?client_id=1456491034
 				margin: 0;
 				padding: 0;
 				box-sizing: border-box;
-				font-family: 'Outfit', sans-serif;
+				font-family: "Outfit", sans-serif;
 			}
 
 			body {
 				background-color: var(--bg-dark);
 				color: var(--text-light);
 				overflow-x: hidden;
-				background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #0a0b10 80%);
+				background: radial-gradient(
+					circle at 50% -20%,
+					#1e3a8a 0%,
+					#0a0b10 80%
+				);
 			}
 
 			.navbar {
@@ -75,7 +83,11 @@ const inviteUrl = "https://discord.com/api/oauth2/authorize?client_id=1456491034
 				font-weight: 800;
 				line-height: 1;
 				margin-bottom: 1.5rem;
-				background: linear-gradient(135deg, #fff 0%, var(--accent-blue) 100%);
+				background: linear-gradient(
+					135deg,
+					#fff 0%,
+					var(--accent-blue) 100%
+				);
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
 			}
@@ -97,7 +109,8 @@ const inviteUrl = "https://discord.com/api/oauth2/authorize?client_id=1456491034
 				text-decoration: none;
 				font-weight: 600;
 				font-size: 1.1rem;
-				transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+				transition: transform 0.3s
+					cubic-bezier(0.175, 0.885, 0.32, 1.275);
 				display: inline-block;
 				box-shadow: 0 10px 30px rgba(30, 144, 255, 0.3);
 			}
@@ -114,7 +127,8 @@ const inviteUrl = "https://discord.com/api/oauth2/authorize?client_id=1456491034
 				opacity: 0.15;
 				pointer-events: none;
 				z-index: 1;
-				filter: grayscale(100%) brightness(0.5) sepia(100%) hue-rotate(180deg);
+				filter: grayscale(100%) brightness(0.5) sepia(100%)
+					hue-rotate(180deg);
 			}
 
 			.features {
@@ -163,38 +177,62 @@ const inviteUrl = "https://discord.com/api/oauth2/authorize?client_id=1456491034
 		<nav class="navbar">
 			<div class="logo">MIOMUSIC</div>
 			<div>
-				<a href={inviteUrl} class="btn-invite" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">Add to Discord</a>
+				<a
+					href={inviteUrl}
+					class="btn-invite"
+					style="padding: 0.6rem 1.5rem; font-size: 0.9rem;"
+					>Add to Discord</a
+				>
 			</div>
 		</nav>
 
 		<main>
 			<section class="hero">
-				<!-- Simulating Mio Illustration with CSS/Background -->
 				<div class="hero-content">
 					<h1>The Soul of Your Server.</h1>
-					<p>Experience ultra-high fidelity audio with MioMusic. Inspired by the dedication of Mio Akiyama, built for the global stage.</p>
-					<a href={inviteUrl} class="btn-invite">Invite MioMusic Now</a>
+					<p>
+						Experience ultra-high fidelity audio with MioMusic.
+						Inspired by the dedication of Mio Akiyama, built for the
+						global stage.
+					</p>
+					<a href={inviteUrl} class="btn-invite"
+						>Invite MioMusic Now</a
+					>
 				</div>
 			</section>
 
 			<section class="features">
 				<div class="feature-card">
 					<h3>Premium Audio</h3>
-					<p>320kbps lossless streaming across all platforms. Youtube, Spotify, SoundCloud, and more supported with one command.</p>
+					<p>
+						320kbps lossless streaming across all platforms.
+						Youtube, Spotify, SoundCloud, and more supported with
+						one command.
+					</p>
 				</div>
 				<div class="feature-card">
 					<h3>24/7 Connectivity</h3>
-					<p>Our dedicated nodes ensure Mio never leaves the stage. Low latency, high uptime, zero stutters.</p>
+					<p>
+						Our dedicated nodes ensure Mio never leaves the stage.
+						Low latency, high uptime, zero stutters.
+					</p>
 				</div>
 				<div class="feature-card">
 					<h3>Advanced Filters</h3>
-					<p>Bassboost, Nightcore, Vaporwave - unlock the full potential of your music with professional audio processing.</p>
+					<p>
+						Bassboost, Nightcore, Vaporwave - unlock the full
+						potential of your music with professional audio
+						processing.
+					</p>
 				</div>
 			</section>
 		</main>
 
 		<footer class="footer">
-			<p>&copy; 2026 MioMusic Global. Not affiliated with Kakifly or Kyoto Animation.</p>
+			<p>
+				&copy; 2026 MioMusic Global. Not affiliated with Kakifly or
+				Kyoto Animation.
+			</p>
 		</footer>
 	</body>
 </html>
