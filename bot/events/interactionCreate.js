@@ -6,6 +6,7 @@ module.exports = {
     async execute(interaction) {
         const client = interaction.client;
 
+        // Handle Slash Commands
         if (interaction.isChatInputCommand()) {
             const command = client.commands.get(interaction.commandName);
             if (!command) return;
@@ -13,125 +14,112 @@ module.exports = {
             try {
                 await command.execute(interaction);
             } catch (error) {
-                console.error(error);
-                const msg = { content: `❌ **MioMusic:** Terjadi kesalahan saat menjalankan command ini!`, ephemeral: true };
-                if (interaction.replied || interaction.deferred) await interaction.followUp(msg).catch(() => null);
-                else await interaction.reply(msg).catch(() => null);
+                console.error("[MioMusic] Command Error:", error);
+                const msg = { content: "❌ Terjadi kesalahan!", flags: 64 };
+                if (interaction.replied || interaction.deferred) {
+                    await interaction.followUp(msg).catch(() => null);
+                } else {
+                    await interaction.reply(msg).catch(() => null);
+                }
             }
-        } else if (interaction.isButton()) {
+            return;
+        }
+
+        // Handle Buttons
+        if (interaction.isButton()) {
             const queue = client.player.nodes.get(interaction.guildId);
 
-            // Re-verify voice connection for buttons
+            // Voice channel check
             if (!interaction.member.voice.channel) {
-                return interaction.reply({ content: "❌ Anda harus berada di voice channel!", ephemeral: true });
+                return interaction.reply({ content: "❌ Masuk voice channel dulu!", flags: 64 }).catch(() => null);
             }
 
-            if (queue && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-                return interaction.reply({ content: "❌ Anda harus berada di voice channel yang sama dengan MioMusic!", ephemeral: true });
+            if (!queue) {
+                return interaction.reply({ content: "❌ Tidak ada musik.", flags: 64 }).catch(() => null);
             }
 
-            if (!queue) return interaction.reply({ content: "❌ Tidak ada musik yang sedang diputar.", ephemeral: true });
-
-            await interaction.deferReply({ ephemeral: true }).catch(() => null);
+            const buttonId = interaction.customId;
 
             try {
-                switch (interaction.customId) {
-                    case "previous_btn":
-                        const history = queue.history;
-                        if (!history.tracks.size) {
-                            return interaction.editReply("❌ **MioMusic:** Tidak ada lagu sebelumnya.");
+                // Queue button = PUBLIC, others = EPHEMERAL
+                if (buttonId === "queue") {
+                    await interaction.deferReply();
+                } else {
+                    await interaction.deferReply({ flags: 64 });
+                }
+            } catch (e) {
+                return;
+            }
+
+            try {
+                switch (buttonId) {
+                    case "prev":
+                        if (queue.history.tracks.size > 0) {
+                            await queue.history.back();
+                            await interaction.editReply("⏮️ Previous");
+                        } else {
+                            await interaction.editReply("❌ Tidak ada lagu sebelumnya");
                         }
-                        await history.back();
-                        await interaction.editReply("⏮️ **MioMusic:** Kembali ke lagu sebelumnya.");
                         break;
 
-                    case "pause_btn":
-                        const paused = queue.node.isPaused();
-                        queue.node.setPaused(!paused);
-                        await interaction.editReply(paused ? "▶️ **MioMusic:** Melanjutkan lagu." : "⏸️ **MioMusic:** Lagu dijeda.");
+                    case "pause":
+                        const isPaused = queue.node.isPaused();
+                        queue.node.setPaused(!isPaused);
+                        await interaction.editReply(isPaused ? "▶️ Play" : "⏸️ Paused");
                         break;
 
-                    case "skip_btn":
+                    case "skip":
                         queue.node.skip();
-                        await interaction.editReply("⏭️ **MioMusic:** Melewati lagu.");
+                        await interaction.editReply("⏭️ Skipped");
                         break;
 
-                    case "stop_btn":
-                        queue.delete();
-                        await interaction.editReply("⏹️ **MioMusic:** Berhenti dan keluar dari channel.");
-                        break;
-
-                    case "loop_btn":
-                        // Cycle through loop modes: Off -> Track -> Queue -> Off
-                        const currentMode = queue.repeatMode;
-                        let newMode;
-                        let modeText;
-
-                        if (currentMode === QueueRepeatMode.OFF) {
+                    case "loop":
+                        let newMode, text;
+                        if (queue.repeatMode === QueueRepeatMode.OFF) {
                             newMode = QueueRepeatMode.TRACK;
-                            modeText = "🔂 Loop Track (Lagu ini akan diulang)";
-                        } else if (currentMode === QueueRepeatMode.TRACK) {
+                            text = "🔂 Loop: Track";
+                        } else if (queue.repeatMode === QueueRepeatMode.TRACK) {
                             newMode = QueueRepeatMode.QUEUE;
-                            modeText = "🔁 Loop Queue (Semua antrean akan diulang)";
+                            text = "🔁 Loop: Queue";
                         } else {
                             newMode = QueueRepeatMode.OFF;
-                            modeText = "➡️ Loop Off (Tidak ada pengulangan)";
+                            text = "➡️ Loop: Off";
                         }
-
                         queue.setRepeatMode(newMode);
-                        await interaction.editReply(`**MioMusic:** ${modeText}`);
+                        await interaction.editReply(text);
                         break;
 
-                    case "shuffle_btn":
-                        queue.tracks.shuffle();
-                        await interaction.editReply("🔀 **MioMusic:** Antrean diacak!");
-                        break;
-
-                    case "queue_btn":
+                    case "queue":
                         const tracks = queue.tracks.toArray();
-                        const currentTrack = queue.currentTrack;
-                        let qString = "";
+                        const current = queue.currentTrack;
 
-                        if (currentTrack) {
-                            qString += `**Now Playing:**\n🎵 ${currentTrack.title}\n\n`;
-                        }
-
+                        let desc = "";
                         if (tracks.length > 0) {
-                            qString += `**Up Next:**\n${tracks.slice(0, 10).map((t, i) => `**${i + 1}.** ${t.title}`).join('\n')}`;
-                            if (tracks.length > 10) {
-                                qString += `\n... dan ${tracks.length - 10} lagu lainnya`;
-                            }
+                            desc = tracks.slice(0, 10).map((t, i) => `${i + 1}. ${t.title}`).join("\n");
+                            if (tracks.length > 10) desc += `\n... +${tracks.length - 10} more`;
                         } else {
-                            qString += "*Antrean kosong*";
+                            desc = "*Queue kosong*";
                         }
 
-                        const qEmbed = new EmbedBuilder()
-                            .setTitle("📋 MioMusic Queue")
-                            .setDescription(qString)
+                        const embed = new EmbedBuilder()
+                            .setTitle("📋 Queue")
                             .setColor(client.config.color)
-                            .setFooter({ text: `Total: ${tracks.length} lagu dalam antrean` });
+                            .addFields({
+                                name: "🎵 Now Playing",
+                                value: current ? current.title : "None"
+                            })
+                            .setDescription(`**Up Next:**\n${desc}`)
+                            .setFooter({ text: `${tracks.length} lagu dalam queue` });
 
-                        await interaction.editReply({ embeds: [qEmbed] });
-                        break;
-
-                    case "vol_up":
-                        const newVolUp = Math.min(queue.node.volume + 10, 100);
-                        queue.node.setVolume(newVolUp);
-                        await interaction.editReply(`🔊 **MioMusic:** Volume: ${newVolUp}%`);
-                        break;
-
-                    case "vol_down":
-                        const newVolDown = Math.max(queue.node.volume - 10, 0);
-                        queue.node.setVolume(newVolDown);
-                        await interaction.editReply(`🔉 **MioMusic:** Volume: ${newVolDown}%`);
+                        await interaction.editReply({ embeds: [embed] });
                         break;
 
                     default:
-                        await interaction.editReply("❌ Tombol tidak dikenali.");
+                        await interaction.editReply("❌ Unknown button");
                 }
             } catch (err) {
-                console.error("[MioMusic] Button Error:", err);
-                await interaction.editReply("❌ Gagal memproses aksi.").catch(() => null);
+                console.error("[MioMusic] Button Error:", err.message);
+                await interaction.editReply("❌ Error").catch(() => null);
             }
         }
     }

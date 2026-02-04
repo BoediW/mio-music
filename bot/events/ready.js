@@ -11,14 +11,26 @@ module.exports = {
         const commands = client.commands.map(cmd => cmd.data.toJSON());
 
         try {
-            logger.log("Registering global commands...");
+            // Clear global commands first (to prevent duplicates)
+            logger.log("Clearing old global commands...");
             await rest.put(
                 Routes.applicationCommands(client.user.id),
-                { body: commands }
+                { body: [] }
             );
-            logger.log("Successfully registered global commands.");
+
+            // Register only as GUILD commands (instant, no duplicates)
+            if (process.env.GUILD_ID) {
+                logger.log(`Registering ${commands.length} commands...`);
+                await rest.put(
+                    Routes.applicationGuildCommands(client.user.id, process.env.GUILD_ID),
+                    { body: commands }
+                );
+                logger.log(`✅ Registered ${commands.length} commands!`);
+            } else {
+                logger.error("GUILD_ID not set in .env!");
+            }
         } catch (error) {
-            logger.error(error);
+            logger.error("Failed to register commands:", error);
         }
     }
 };

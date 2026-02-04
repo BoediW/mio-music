@@ -3,19 +3,59 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("help")
-        .setDescription("Menampilkan daftar perintah MioMusic"),
+        .setDescription("Tampilkan daftar semua command MioMusic"),
     async execute(interaction) {
         const embed = new EmbedBuilder()
-            .setTitle("🎹 MioMusic Command List")
-            .setDescription("Gunakan perintah slash di bawah ini untuk mengontrol MioMusic.")
+            .setAuthor({
+                name: "MioMusic - Bantuan",
+                iconURL: interaction.client.user.displayAvatarURL()
+            })
             .setColor(interaction.client.config.color)
+            .setDescription("Berikut adalah daftar semua command yang tersedia:")
             .addFields(
-                { name: "🎵 Musik", value: "`/play`, `/skip`, `/stop`, `/queue`, `/nowplaying`", inline: false },
-                { name: "🛠️ System", value: "`/ping`, `/help`", inline: false }
+                {
+                    name: "🎵 Musik",
+                    value: [
+                        "`/play <query>` - Putar lagu dari SoundCloud/Spotify",
+                        "`/playlist <query>` - Putar playlist",
+                        "`/pause` - Jeda lagu",
+                        "`/resume` - Lanjutkan lagu",
+                        "`/skip` - Lewati lagu",
+                        "`/previous` - Lagu sebelumnya",
+                        "`/stop` - Hentikan & keluar",
+                    ].join("\n"),
+                    inline: false
+                },
+                {
+                    name: "📋 Antrean",
+                    value: [
+                        "`/queue` - Lihat antrean",
+                        "`/clear` - Hapus antrean",
+                        "`/shuffle` - Acak antrean",
+                        "`/loop <mode>` - Atur mode loop",
+                    ].join("\n"),
+                    inline: false
+                },
+                {
+                    name: "🔊 Pengaturan",
+                    value: [
+                        "`/volume <0-100>` - Atur volume",
+                        "`/nowplaying` - Info lagu saat ini",
+                    ].join("\n"),
+                    inline: false
+                },
+                {
+                    name: "ℹ️ Lainnya",
+                    value: [
+                        "`/ping` - Cek latensi bot",
+                        "`/help` - Tampilkan bantuan ini",
+                    ].join("\n"),
+                    inline: false
+                }
             )
-            .setThumbnail(interaction.client.user.displayAvatarURL())
-            .setFooter({ text: "Terinspirasi oleh Jockie Music, Disempurnakan oleh Mio Global" });
+            .setFooter({ text: "🎹 SoundCloud & Spotify | MioMusic Premium" })
+            .setTimestamp();
 
-        return interaction.reply({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
     }
 };
