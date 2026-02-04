@@ -1,0 +1,200 @@
+---
+const botName = "MioMusic";
+const inviteUrl = "https://discord.com/api/oauth2/authorize?client_id=1456491034488864799&permissions=8&scope=bot%20applications.commands";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{botName} - Professional Discord Music Bot</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+		<style>
+			:root {
+				--bg-dark: #0a0b10;
+				--accent-blue: #1e90ff;
+				--text-light: #f0f4f8;
+				--glass-bg: rgba(255, 255, 255, 0.03);
+				--glass-border: rgba(255, 255, 255, 0.1);
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Outfit', sans-serif;
+			}
+
+			body {
+				background-color: var(--bg-dark);
+				color: var(--text-light);
+				overflow-x: hidden;
+				background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #0a0b10 80%);
+			}
+
+			.navbar {
+				padding: 2rem 5%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				position: fixed;
+				width: 100%;
+				top: 0;
+				z-index: 100;
+				backdrop-filter: blur(10px);
+				background: rgba(10, 11, 16, 0.7);
+			}
+
+			.logo {
+				font-size: 1.5rem;
+				font-weight: 800;
+				letter-spacing: -1px;
+				color: var(--accent-blue);
+			}
+
+			.hero {
+				height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+				padding: 0 5%;
+				text-align: center;
+			}
+
+			.hero-content {
+				max-width: 800px;
+				z-index: 2;
+			}
+
+			.hero h1 {
+				font-size: clamp(3rem, 10vw, 6rem);
+				font-weight: 800;
+				line-height: 1;
+				margin-bottom: 1.5rem;
+				background: linear-gradient(135deg, #fff 0%, var(--accent-blue) 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+
+			.hero p {
+				font-size: 1.25rem;
+				color: #94a3b8;
+				margin-bottom: 2.5rem;
+				max-width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			.btn-invite {
+				background-color: var(--accent-blue);
+				color: white;
+				padding: 1.2rem 3rem;
+				border-radius: 50px;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 1.1rem;
+				transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+				display: inline-block;
+				box-shadow: 0 10px 30px rgba(30, 144, 255, 0.3);
+			}
+
+			.btn-invite:hover {
+				transform: scale(1.05);
+			}
+
+			.mio-img {
+				position: absolute;
+				bottom: 0;
+				right: -10%;
+				height: 100vh;
+				opacity: 0.15;
+				pointer-events: none;
+				z-index: 1;
+				filter: grayscale(100%) brightness(0.5) sepia(100%) hue-rotate(180deg);
+			}
+
+			.features {
+				padding: 10rem 5%;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 2rem;
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+
+			.feature-card {
+				background: var(--glass-bg);
+				border: 1px solid var(--glass-border);
+				padding: 3rem;
+				border-radius: 24px;
+				transition: 0.3s;
+			}
+
+			.feature-card:hover {
+				background: rgba(255, 255, 255, 0.05);
+				border-color: var(--accent-blue);
+				transform: translateY(-5px);
+			}
+
+			.feature-card h3 {
+				margin-bottom: 1rem;
+				font-size: 1.5rem;
+				color: var(--accent-blue);
+			}
+
+			.feature-card p {
+				color: #94a3b8;
+				line-height: 1.6;
+			}
+
+			.footer {
+				padding: 4rem 5%;
+				text-align: center;
+				color: #475569;
+				border-top: 1px solid var(--glass-border);
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar">
+			<div class="logo">MIOMUSIC</div>
+			<div>
+				<a href={inviteUrl} class="btn-invite" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">Add to Discord</a>
+			</div>
+		</nav>
+
+		<main>
+			<section class="hero">
+				<!-- Simulating Mio Illustration with CSS/Background -->
+				<div class="hero-content">
+					<h1>The Soul of Your Server.</h1>
+					<p>Experience ultra-high fidelity audio with MioMusic. Inspired by the dedication of Mio Akiyama, built for the global stage.</p>
+					<a href={inviteUrl} class="btn-invite">Invite MioMusic Now</a>
+				</div>
+			</section>
+
+			<section class="features">
+				<div class="feature-card">
+					<h3>Premium Audio</h3>
+					<p>320kbps lossless streaming across all platforms. Youtube, Spotify, SoundCloud, and more supported with one command.</p>
+				</div>
+				<div class="feature-card">
+					<h3>24/7 Connectivity</h3>
+					<p>Our dedicated nodes ensure Mio never leaves the stage. Low latency, high uptime, zero stutters.</p>
+				</div>
+				<div class="feature-card">
+					<h3>Advanced Filters</h3>
+					<p>Bassboost, Nightcore, Vaporwave - unlock the full potential of your music with professional audio processing.</p>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<p>&copy; 2026 MioMusic Global. Not affiliated with Kakifly or Kyoto Animation.</p>
+		</footer>
+	</body>
+</html>
