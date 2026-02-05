@@ -2,7 +2,7 @@ const { REST, Routes } = require("discord.js");
 const logger = require("../utils/logger");
 
 module.exports = {
-    name: "clientReady",
+    name: "ready",
     once: true,
     async execute(client) {
         logger.log(`MioMusic is ready as ${client.user.tag}`);
