@@ -1,15 +1,19 @@
 {
   "name": "mio-music",
   "version": "1.0.0",
-  "description": "Professional Discord Music Botinspired by Mio Akiyama (K-On!)",
+  "description": "Professional Discord Music Bot inspired by Mio Akiyama (K-On!)",
   "main": "bot/index.js",
   "scripts": {
+    "start": "node bot/index.js",
     "dev": "astro dev",
     "start:web": "astro dev",
     "start:bot": "node bot/index.js",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@discord-player/extractor": "^7.1.0",
