@@ -1,9 +1,16 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
+
+// Debug: Check if TOKEN is loaded
+console.log("[MioMusic] Starting bot...");
+console.log("[MioMusic] TOKEN exists:", !!process.env.TOKEN);
+console.log("[MioMusic] CLIENT_ID:", process.env.CLIENT_ID || "NOT SET");
+console.log("[MioMusic] GUILD_ID:", process.env.GUILD_ID || "NOT SET");
+
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const { Player } = require("discord-player");
 const { DefaultExtractors } = require("@discord-player/extractor");
 const fs = require("fs");
-const path = require("path");
 const logger = require("./utils/logger");
 
 const client = new Client({
