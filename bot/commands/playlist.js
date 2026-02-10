@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { QueryType, useMainPlayer } = require("discord-player");
+const play = require("play-dl");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -43,7 +44,33 @@ module.exports = {
                 leaveOnEnd: true,
                 leaveOnEndCooldown: 60000,
                 leaveOnEmpty: true,
-                leaveOnEmptyCooldown: 30000
+                leaveOnEmptyCooldown: 30000,
+                async onBeforeCreateStream(track, source, _queue) {
+                    try {
+                        if (source === "youtube") {
+                            const stream = await play.stream(track.url);
+                            return stream.stream;
+                        }
+
+                        // Bridge Spotify & SoundCloud to YouTube for full duration
+                        if (source === "spotify" || source === "soundcloud") {
+                            const searchResult = await play.search(`${track.title} ${track.author}`, {
+                                limit: 1,
+                                source: { youtube: "video" }
+                            });
+
+                            if (searchResult && searchResult.length > 0) {
+                                const stream = await play.stream(searchResult[0].url);
+                                return stream.stream;
+                            }
+                        }
+                    } catch (error) {
+                        console.error("[MioMusic] Stream Error:", error);
+                        return null;
+                    }
+
+                    return null;
+                }
             });
 
             if (!queue.connection) {
